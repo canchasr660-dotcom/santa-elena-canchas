@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario de Reserva</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif;}
+body{
+  background-color:#f4f6f8;
+  padding:50px 0;
+}
+.container{
+  max-width:500px;
+  margin:auto;
+  background:rgba(255,255,255,0.95);
+  padding:30px;
+  border-radius:12px;
+  text-align:center;
+}
+h2{
+  font-style:italic;
+  font-size:24px;
+  margin-bottom:20px;
+}
+input, select{
+  width:90%;
+  padding:10px;
+  margin:10px 0;
+  border-radius:6px;
+  border:1px solid #ccc;
+  font-size:16px;
+}
+button{
+  padding:12px 20px;
+  margin-top:15px;
+  background:#1e7f3f;
+  color:white;
+  border:none;
+  border-radius:6px;
+  font-size:16px;
+  cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Formulario de Reserva</h2>
+
+<form id="formReserva">
+  <input type="text" id="nombre" placeholder="Nombre" required><br>
+
+  <select id="hora" required>
+    <option value="">Selecciona la hora</option>
+    <option value="18:00">6:00 PM</option>
+    <option value="19:00">7:00 PM</option>
+    <option value="20:00">8:00 PM</option>
+    <option value="21:00">9:00 PM</option>
+    <option value="22:00">10:00 PM</option>
+  </select><br>
+
+  <input type="date" id="dia" required><br>
+
+  <button type="submit">Enviar por WhatsApp</button>
+</form>
+</div>
+
+<script>
+// Obtener tipo de cancha desde la URL
+const params = new URLSearchParams(window.location.search);
+const cancha = params.get('cancha');
+
+// Número de WhatsApp (sin espacios ni símbolos)
+const whatsappNumber = "+573219563479"; // +57 321 956 3479
+
+document.getElementById('formReserva').addEventListener('submit', function(e){
+  e.preventDefault();
+
+  const nombre = document.getElementById('nombre').value;
+  const hora = document.getElementById('hora').value;
+  const dia = document.getElementById('dia').value;
+
+  if(!hora || !dia || !nombre){
+    alert("Por favor completa todos los campos");
+    return;
+  }
+
+  // Mensaje a enviar por WhatsApp
+  const mensaje = `Hola, quiero reservar:\n- Nombre: ${nombre}\n- Cancha: Fútbol ${cancha}\n- Día: ${dia}\n- Hora: ${hora}`;
+
+  // Abrir WhatsApp en nueva pestaña
+  const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(mensaje)}`;
+  window.open(url, "_blank");
+});
+</script>
+
+</body>
+</html>
